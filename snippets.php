@@ -105,3 +105,20 @@ if ( $product->get_sku() && in_array( $product->get_sku(), $skuswithgift ) ) {
 }
 return $passed;
 }
+
+/**
+ * @snippet       Buy 1, Get Free Product as a Gift - WooCommerce
+ * @how-to        Watch tutorial @ https://businessbloomer.com/?p=19055
+ * @sourcecode    https://businessbloomer.com/?p=21732
+ * @author        ArisTech &GMAnentis
+ * @compatible    Woo 3.5.3
+ * @donate $9     https://businessbloomer.com/bloomer-armada/
+ */
+
+$category_id = $wp_query->get_queried_object()->term_id;
+$anc = get_ancestors( $category_id, 'product_cat' );
+if($category_id == 1026 || $anc[0] == 1026)
+{
+	echo "<img width='100%' src='/wp-content/uploads/2019/08/3-1-flavour-shots-category.jpg' />";
+
+}
