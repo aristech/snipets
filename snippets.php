@@ -107,12 +107,11 @@ return $passed;
 }
 
 /**
- * @snippet       Buy 1, Get Free Product as a Gift - WooCommerce
- * @how-to        Watch tutorial @ https://businessbloomer.com/?p=19055
- * @sourcecode    https://businessbloomer.com/?p=21732
- * @author        ArisTech &GMAnentis
+ * @snippet       Display image per Parent Category
+ * @how-to        N/A
+ * @sourcecode    Snippet
+ * @author        ArisTech & GMAnentis
  * @compatible    Woo 3.5.3
- * @donate $9     https://businessbloomer.com/bloomer-armada/
  */
 
 $category_id = $wp_query->get_queried_object()->term_id;
