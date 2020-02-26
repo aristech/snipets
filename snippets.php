@@ -121,3 +121,72 @@ if($category_id == 1026 || $anc[0] == 1026)
 	echo "<img width='100%' src='/wp-content/uploads/2019/08/3-1-flavour-shots-category.jpg' />";
 
 }
+
+/**
+ * Sale flash | Badges & percentage --- Ellesi 5shoes on theme
+ */
+if(!function_exists('elessi_add_custom_sale_flash')) :
+    function elessi_add_custom_sale_flash() {
+        global $product;
+        
+        $badges = '';
+        
+        /**
+         * Custom Badge
+         */
+        $nasa_bubble_hot = elessi_get_custom_field_value($product->get_id(), '_bubble_hot');
+        $badges .= $nasa_bubble_hot ? '<div class="badge hot-label">' . $nasa_bubble_hot . '</div>' : '';
+
+        if ($product->is_on_sale()):
+            
+            /**
+             * Sale
+             */
+            $product_type = $product->get_type();
+            if ($product_type == 'variable') :
+				$var_maximumper = 0;
+				$var_sale_price     =  $product->get_variation_sale_price( 'min', true );
+        		$var_regular_price  =  $product->get_variation_regular_price( 'max', true );
+				if(is_numeric($var_sale_price)) :
+                    $var_percentage = $var_regular_price ? round(((($var_regular_price - $var_sale_price) / $var_regular_price) * 100), 0) : 0;
+                    if ($var_percentage > $var_maximumper) :
+                        $var_maximumper = $var_percentage;
+                    endif;
+                    
+                    $badges .= '<div class="badge sale-label">'. sprintf(esc_html__('%s', 'elessi-theme'), $var_maximumper . '%') . '</div>';
+				else :
+	    			 $badges .= '<div class="badge sale-label"></div>';
+                endif;
+           
+                
+            else :
+                $maximumper = 0;
+                $regular_price = $product->get_regular_price();
+                $sales_price = $product->get_sale_price();
+                if(is_numeric($sales_price)) :
+                    $percentage = $regular_price ? round(((($regular_price - $sales_price) / $regular_price) * 100), 0) : 0;
+                    if ($percentage > $maximumper) :
+                        $maximumper = $percentage;
+                    endif;
+                    
+                    $badges .= '<div class="badge sale-label"><span class="sale-label-text">' . esc_html__('SALE', 'elessi-theme') . '</span>' . '-' . sprintf(esc_html__('%s', 'elessi-theme'), $maximumper . '%') . '</div>';
+                endif;
+            endif;
+            
+            /**
+             * Style show with Deal product
+             */
+            $badges .= '<div class="badge deal-label">' . esc_html__('LIMITED', 'elessi-theme') . '</div>';
+        endif;
+        
+        /**
+         * Out of stock
+         */
+        $stock_status = $product->get_stock_status();
+        if ($stock_status == "outofstock"):
+            $badges .= '<div class="badge out-of-stock-label">' . esc_html__('Sold Out', 'elessi-theme') . '</div>';
+        endif;
+        
+        echo ('' !== $badges) ? '<div class="nasa-badges-wrap">' . $badges . '</div>' : '';
+    }
+endif;
